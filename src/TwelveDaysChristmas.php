@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 namespace Lightspeed;
+use ReflectionClass;
+use Composer\Autoload\ClassLoader;
 
 class TwelveDaysChristmas
 {
   private $gifts = [];
+  private $lyrics = "";
 
   function __construct()
   {
     $this->buildGiftList();
+    $this->lyrics = $this->getLyricsFromFile();
   }
 
   public function getTotalNumberOfDays(): int
@@ -43,5 +47,12 @@ class TwelveDaysChristmas
     $this->addGift(10, "Ten lords a-leaping");
     $this->addGift(11, "Eleven pipers piping");
     $this->addGift(12, "Twelve drummers drumming");
+  }
+
+  private function getLyricsFromFile(string $filename = "lyrics.txt"): string
+  {
+    $reflection = new ReflectionClass(ClassLoader::class);
+    $projectDirectory = dirname($reflection->getFileName(), 3);
+    return file_get_contents($projectDirectory . "/" . $filename);
   }
 }
