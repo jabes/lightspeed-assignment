@@ -17,8 +17,9 @@ final class TwelveDaysChristmasTest extends TestCase
   public function testGiftCountByDay()
   {
     $worker = new TwelveDaysChristmas();
-    for ($i = 1; $i <= 12; $i++) {
-      $this->assertSame(1, $worker->getGiftCountByDay(1));
+    $totalDays = $worker->getTotalNumberOfDays();
+    for ($i = 1; $i <= $totalDays; $i++) {
+      $this->assertSame($i, $worker->getGiftCountByDay($i));
     }
   }
 }
