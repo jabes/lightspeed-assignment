@@ -105,21 +105,6 @@ class TwelveDaysChristmas
 
   /**
    * Retrieves the gifts that succeed each verse heading.
-   * Ex:
-      Array (
-        [1] => Array (
-          [0] => A partridge in a pear tree
-        )
-        [2] => Array (
-          [0] => Two turtle doves, and
-          [1] => A partridge in a pear tree
-        )
-        [3] => Array (
-          [0] => Three French hens
-          [1] => Two turtle doves, and
-          [2] => A partridge in a pear tree
-        )
-      )
    */
   private function parseLyricsIntoGifts(): void
   {
