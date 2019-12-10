@@ -13,8 +13,8 @@ class TwelveDaysChristmas
   function __construct()
   {
     // $this->buildGiftList();
-    $this->lyrics = $this->getLyricsFromFile();
-    $this->parseLyrics();
+    $this->getLyricsFromFile();
+    $this->parseLyricsIntoGifts();
   }
 
   public function getTotalNumberOfDays(): int
@@ -50,17 +50,16 @@ class TwelveDaysChristmas
     $this->addGift(12, "Twelve drummers drumming");
   }
 
-  private function getLyricsFromFile(string $filename = "lyrics.txt"): string
+  private function getLyricsFromFile(string $filename = "lyrics.txt"): void
   {
     $reflection = new ReflectionClass(ClassLoader::class);
     $projectDirectory = dirname($reflection->getFileName(), 3);
-    return file_get_contents($projectDirectory . "/" . $filename);
+    $this->lyrics = file_get_contents($projectDirectory . "/" . $filename);
   }
 
-  private function parseLyrics(): void
+  private function getVerseStartLines(): array
   {
     $matches = [];
-
     preg_match_all(
       '/On the .* day of Christmas my true love sent to me/',
       $this->lyrics,
@@ -68,10 +67,7 @@ class TwelveDaysChristmas
       PREG_OFFSET_CAPTURE
     );
 
-    $lines = explode(PHP_EOL, $this->lyrics);
-    $lineCount = count($lines);
     $verseStartLines = [];
-
     foreach (current($matches) as $match) {
       $charpos = $match[1];
       if ($charpos > 0) {
@@ -81,6 +77,15 @@ class TwelveDaysChristmas
         $verseStartLines[] = 1;
       }
     }
+
+    return $verseStartLines;
+  }
+
+  private function parseLyricsIntoGifts(): void
+  {
+    $lines = explode(PHP_EOL, $this->lyrics);
+    $lineCount = count($lines);
+    $verseStartLines = $this->getVerseStartLines();
 
     foreach ($verseStartLines as $index => $verseStartLine) {
       $nextLineNumber = $verseStartLines[$index+1] ?? $lineCount + 1;
