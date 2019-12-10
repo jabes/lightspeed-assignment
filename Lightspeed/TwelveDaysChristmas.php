@@ -10,17 +10,17 @@ class TwelveDaysChristmas {
     $this->buildGiftList();
   }
 
-  public function getNumberOfGifts(int $day) {
+  public function getNumberOfGifts(int $day): int {
     return count($this->gifts[$day]);
   }
 
-  private function addGift(int $day, string $item) {
+  private function addGift(int $day, string $item): void {
     $newGift = end($this->gifts) ?: [];
     array_unshift($newGift, $item);
     $this->gifts[$day] = $newGift;
   }
 
-  private function buildGiftList() {
+  private function buildGiftList(): void {
     $this->addGift(1, "A partridge in a pear tree");
     $this->addGift(2, "Two turtle doves");
     $this->addGift(3, "Three French hens");
