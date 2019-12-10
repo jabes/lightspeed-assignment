@@ -11,7 +11,7 @@ $options = getopt($shortopts, $longopts);
 $day = $options['day'] ?? $options['d'] ?? null;
 if (!$day) die("A day must be defined.". PHP_EOL);
 
-$worker = new TwelveDaysChristmas();
+$worker = new TwelveDaysChristmas(true);
 
 $day = intval($day);
 $totalDays = $worker->getTotalNumberOfDays();

@@ -10,23 +10,35 @@ class TwelveDaysChristmas
   private $gifts = [];
   private $lyrics;
 
-  function __construct()
+  function __construct(bool $parseFromFile = true)
   {
-    // $this->buildGiftList();
-    $this->getLyricsFromFile();
-    $this->parseLyricsIntoGifts();
+    if ($parseFromFile) {
+      $this->getLyricsFromFile();
+      $this->parseLyricsIntoGifts();
+    } else {
+      $this->buildGiftList();
+    }
   }
 
+  /**
+   * Get the total number of days that contain gifts.
+   */
   public function getTotalNumberOfDays(): int
   {
     return count($this->gifts);
   }
 
+  /**
+   * Get the number of gifts on a specified day.
+   */
   public function getGiftCountByDay(int $day): int
   {
     return count($this->gifts[$day]);
   }
 
+  /**
+   * Add a new item for the specified day along with all the items from the previous day.
+   */
   private function addGift(int $day, string $item): void
   {
     $newGift = end($this->gifts) ?: [];
@@ -34,6 +46,9 @@ class TwelveDaysChristmas
     $this->gifts[$day] = $newGift;
   }
 
+  /**
+   * Builds a list of gifts for each day of Christmas.
+   */
   private function buildGiftList(): void
   {
     $this->addGift(1, "A partridge in a pear tree");
@@ -50,6 +65,9 @@ class TwelveDaysChristmas
     $this->addGift(12, "Twelve drummers drumming");
   }
 
+  /**
+   * Retrieves the lyrics from file.
+   */
   private function getLyricsFromFile(string $filename = "lyrics.txt"): void
   {
     $reflection = new ReflectionClass(ClassLoader::class);
@@ -57,6 +75,10 @@ class TwelveDaysChristmas
     $this->lyrics = file_get_contents($projectDirectory . "/" . $filename);
   }
 
+  /**
+   * Retrieves an array of line numbers that contain the beginning of a verse.
+   * Ex: [1,4,8,13,19,26,34,43,53,64,76,89]
+   */
   private function getVerseStartLines(): array
   {
     $matches = [];
@@ -81,6 +103,24 @@ class TwelveDaysChristmas
     return $verseStartLines;
   }
 
+  /**
+   * Retrieves the gifts that succeed each verse heading.
+   * Ex:
+      Array (
+        [1] => Array (
+          [0] => A partridge in a pear tree
+        )
+        [2] => Array (
+          [0] => Two turtle doves, and
+          [1] => A partridge in a pear tree
+        )
+        [3] => Array (
+          [0] => Three French hens
+          [1] => Two turtle doves, and
+          [2] => A partridge in a pear tree
+        )
+      )
+   */
   private function parseLyricsIntoGifts(): void
   {
     $lines = explode(PHP_EOL, $this->lyrics);
