@@ -8,12 +8,13 @@ use Composer\Autoload\ClassLoader;
 class TwelveDaysChristmas
 {
   private $gifts = [];
-  private $lyrics = "";
+  private $lyrics;
 
   function __construct()
   {
-    $this->buildGiftList();
+    // $this->buildGiftList();
     $this->lyrics = $this->getLyricsFromFile();
+    $this->parseLyrics();
   }
 
   public function getTotalNumberOfDays(): int
@@ -54,5 +55,41 @@ class TwelveDaysChristmas
     $reflection = new ReflectionClass(ClassLoader::class);
     $projectDirectory = dirname($reflection->getFileName(), 3);
     return file_get_contents($projectDirectory . "/" . $filename);
+  }
+
+  private function parseLyrics(): void
+  {
+    $matches = [];
+
+    preg_match_all(
+      '/On the .* day of Christmas my true love sent to me/',
+      $this->lyrics,
+      $matches,
+      PREG_OFFSET_CAPTURE
+    );
+
+    $lines = explode(PHP_EOL, $this->lyrics);
+    $lineCount = count($lines);
+    $verseStartLines = [];
+
+    foreach (current($matches) as $match) {
+      $charpos = $match[1];
+      if ($charpos > 0) {
+        list($before) = str_split($this->lyrics, $charpos);
+        $verseStartLines[] = strlen($before) - strlen(str_replace(PHP_EOL, "", $before)) + 1;
+      } else {
+        $verseStartLines[] = 1;
+      }
+    }
+
+    foreach ($verseStartLines as $index => $verseStartLine) {
+      $nextLineNumber = $verseStartLines[$index+1] ?? $lineCount + 1;
+      $diff = $nextLineNumber - $verseStartLine - 2;
+      $this->gifts[$diff] = [];
+      for ($i = 0; $i < $diff; $i++) {
+        $giftLine = $verseStartLine + $i;
+        $this->gifts[$diff][] = $lines[$giftLine];
+      }
+    }
   }
 }
