@@ -8,7 +8,7 @@ Using either PHP or GO compute the number of gifts, on any given day, received i
 git clone https://github.com/jabes/lightspeed-assignment.git
 cd lightspeed-assignment
 composer install --no-dev
-php -f index.php
+php index.php --day 12
 ```
 
 ### Testing
