@@ -1,5 +1,7 @@
 <?php
 
+namespace Lightspeed;
+
 class TwelveDaysChristmas {
 
   private $gifts = [];
