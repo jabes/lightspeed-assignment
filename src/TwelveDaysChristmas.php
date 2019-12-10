@@ -1,26 +1,36 @@
 <?php
 
+declare(strict_types=1);
 namespace Lightspeed;
 
-class TwelveDaysChristmas {
-
+class TwelveDaysChristmas
+{
   private $gifts = [];
 
-  function __construct() {
+  function __construct()
+  {
     $this->buildGiftList();
   }
 
-  public function getNumberOfGifts(int $day): int {
+  public function getTotalNumberOfDays(): int
+  {
+    return count($this->gifts);
+  }
+
+  public function getGiftCountByDay(int $day): int
+  {
     return count($this->gifts[$day]);
   }
 
-  private function addGift(int $day, string $item): void {
+  private function addGift(int $day, string $item): void
+  {
     $newGift = end($this->gifts) ?: [];
     array_unshift($newGift, $item);
     $this->gifts[$day] = $newGift;
   }
 
-  private function buildGiftList(): void {
+  private function buildGiftList(): void
+  {
     $this->addGift(1, "A partridge in a pear tree");
     $this->addGift(2, "Two turtle doves");
     $this->addGift(3, "Three French hens");

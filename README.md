@@ -10,3 +10,10 @@ cd lightspeed-assignment
 composer install --no-dev
 php -f index.php
 ```
+
+### Testing
+
+```bash
+composer install --dev
+vendor/bin/phpunit tests/ --colors
+```
