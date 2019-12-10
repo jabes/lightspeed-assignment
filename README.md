@@ -17,3 +17,5 @@ php index.php --day 12
 composer install --dev
 vendor/bin/phpunit tests/ --colors
 ```
+
+❤️
