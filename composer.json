@@ -2,6 +2,11 @@
     "name": "justin/lightspeed-assignment",
     "description": "Computes the number of gifts, on any given day, received in the song Twelve Days of Christmas.",
     "type": "project",
+    "config": {
+        "platform": {
+            "php": "7.2"
+        }
+    },
     "autoload": {
         "psr-4": {
             "Lightspeed\\": "Lightspeed/"
