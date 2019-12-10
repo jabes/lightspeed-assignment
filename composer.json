@@ -1,0 +1,14 @@
+{
+    "name": "justin/lightspeed-assignment",
+    "description": "Computes the number of gifts, on any given day, received in the song Twelve Days of Christmas.",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "authors": [
+        {
+            "name": "Justin Bull",
+            "email": "bull.justin@gmail.com"
+        }
+    ]
+}
