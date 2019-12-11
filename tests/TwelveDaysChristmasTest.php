@@ -14,12 +14,23 @@ final class TwelveDaysChristmasTest extends TestCase
     $this->assertSame(12, $worker->getTotalNumberOfDays());
   }
 
-  public function testGiftCountByDay()
+  public function testDailyGiftCount()
   {
     $worker = new TwelveDaysChristmas();
     $totalDays = $worker->getTotalNumberOfDays();
     for ($i = 1; $i <= $totalDays; $i++) {
-      $this->assertSame($i, $worker->getGiftCountByDay($i));
+      $this->assertSame($i, $worker->getDailyGiftCount($i));
+    }
+  }
+
+  public function testCumulativeGiftCount()
+  {
+    $worker = new TwelveDaysChristmas();
+    $totalDays = $worker->getTotalNumberOfDays();
+    $cumulativeTotal = 0;
+    for ($i = 1; $i <= $totalDays; $i++) {
+      $cumulativeTotal += $i;
+      $this->assertSame($cumulativeTotal, $worker->getCumulativeGiftCount($i));
     }
   }
 }

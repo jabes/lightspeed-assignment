@@ -17,6 +17,8 @@ $day = intval($day);
 $totalDays = $worker->getTotalNumberOfDays();
 if ($day > $totalDays) die("The day provided exceeds the total number of days.". PHP_EOL);
 
-$giftCount = $worker->getGiftCountByDay($day);
-echo "A total of " . $giftCount . " gifts are received on this day.";
+$dailyTotal = $worker->getDailyGiftCount($day);
+$cumulativeTotal = $worker->getCumulativeGiftCount($day);
+
+echo "You have received " . $dailyTotal . " gifts on day " . $day . " for a total of " . $cumulativeTotal . " gifts since day 1.";
 echo PHP_EOL;

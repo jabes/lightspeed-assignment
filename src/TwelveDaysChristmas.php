@@ -31,9 +31,26 @@ class TwelveDaysChristmas
   /**
    * Get the number of gifts on a specified day.
    */
-  public function getGiftCountByDay(int $day): int
+  public function getDailyGiftCount(int $day): int
   {
     return count($this->gifts[$day]);
+  }
+
+  /**
+   * Get the cumulative number of gifts received from day 1 to the specified day.
+   */
+  public function getCumulativeGiftCount(int $day): int
+  {
+    $cumulativeTotal = 0;
+    reset($this->gifts);
+
+    do {
+      $key = key($this->gifts);
+      $cumulativeTotal += $this->getDailyGiftCount($key);
+      next($this->gifts);
+    } while ($key !== $day);
+
+    return $cumulativeTotal;
   }
 
   /**
